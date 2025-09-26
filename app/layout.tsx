@@ -32,7 +32,7 @@ export default function RootLayout({
         baseTheme: shadcn,
       }}
     >
-      <html lang="en" className="scroll-smooth">
+      <html lang="en" suppressHydrationWarning className="scroll-smooth">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
