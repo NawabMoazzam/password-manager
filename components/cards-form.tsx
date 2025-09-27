@@ -3,9 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { addPassword } from "@/lib/_actions";
+import { addCard } from "@/lib/_actions";
 import { useUser } from "@clerk/nextjs";
-import {useRouter} from "nextjs-toploader/app"
 
 import { Button } from "@/components/ui/button";
 import {
@@ -31,50 +30,44 @@ import { Loader2Icon } from "lucide-react";
 import { toast } from "sonner";
 
 const formSchema = z.object({
-  website: z.url({
-    message: "Please enter a valid URL.",
-  }),
-  username: z.string().min(1, {
-    message: "Username is required.",
-  }),
-  password: z.string().min(8, {
-    message: "Password must be at least 8 characters.",
-  }),
+  cardNote: z.string().min(2, "Card Note must be at least 2 characters"),
+  cardNumber: z.string().min(12, "Card Number must be at least 12 characters"),
+  expiryDate: z.string().min(4, "Expiry Date must be at least 4 characters"),
+  cvv: z.string().min(3, "CVV must be at least 3 characters"),
 });
 
-interface PasswordFormProps {
+interface CardFormProps {
   onAdded?: () => void;
 }
 
-export function PasswordForm({ onAdded }: PasswordFormProps) {
-  const router = useRouter();
+export function CardsForm({ onAdded }: CardFormProps) {
   const { user } = useUser();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      website: "",
-      username: "",
-      password: "",
+      cardNote: "",
+      cardNumber: "",
+      expiryDate: "",
+      cvv: "",
     },
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
     if (user) {
-      addPassword(data, user?.id);
+      addCard(data, user?.id);
       form.reset();
-      toast.success("Password secured successfully!");
+      toast.success("Card secured successfully!");
       onAdded?.();
-      router.refresh();
     }
   }
 
   return (
     <Card className="w-full">
       <CardHeader>
-        <CardTitle>Secure Your Passwords</CardTitle>
+        <CardTitle>Secure Your Cards</CardTitle>
         <CardDescription>
-          Ensure you follow best practices for password management.
+          Ensure you follow best practices for cards management.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -82,12 +75,12 @@ export function PasswordForm({ onAdded }: PasswordFormProps) {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="website"
+              name="cardNumber"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Website</FormLabel>
+                  <FormLabel>Card Number</FormLabel>
                   <FormControl>
-                    <Input placeholder="Website URL" {...field} />
+                    <Input placeholder="Card Number" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -95,12 +88,12 @@ export function PasswordForm({ onAdded }: PasswordFormProps) {
             />
             <FormField
               control={form.control}
-              name="username"
+              name="expiryDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Expiry Date</FormLabel>
                   <FormControl>
-                    <Input placeholder="Username" {...field} />
+                    <Input placeholder="Expiry Date" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -108,28 +101,39 @@ export function PasswordForm({ onAdded }: PasswordFormProps) {
             />
             <FormField
               control={form.control}
-              name="password"
+              name="cvv"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>CVV</FormLabel>
                   <FormControl>
-                    <Input placeholder="Password" {...field} />
+                    <Input placeholder="CVV" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="cardNote"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Card Note</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Card Note" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             {!form.formState.isSubmitting && (
-              <Button type="submit">Secure Password</Button>
+              <Button type="submit">Secure Card</Button>
             )}
             {form.formState.isSubmitting && (
               <Button disabled className="cursor-progress">
                 <Loader2Icon className="animate-spin" />
-                Secure Password
+                Secure Card
               </Button>
             )}
-             {/* <Button onClick={()=>{toast.warning("Working")}} >Toast</Button> */}
-             {/* <Button onClick={()=>{router.refresh()}} >Refresh</Button> */}
           </form>
         </Form>
       </CardContent>
