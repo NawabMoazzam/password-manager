@@ -6,7 +6,7 @@ import { z } from "zod";
 import { addPassword } from "@/lib/_actions";
 import { useUser } from "@clerk/nextjs";
 import {useRouter} from "nextjs-toploader/app"
-
+import { GeneratePassword } from "js-generate-password";
 import { Button } from "@/components/ui/button";
 import {
   Form,

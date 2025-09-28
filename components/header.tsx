@@ -8,11 +8,15 @@ import {
 import { Button } from "./ui/button";
 import { ModeToggle } from "./mode-toogle";
 import Link from "next/link";
+import { Shield } from "lucide-react";
 
 export default function Header() {
   return (
-    <header className="flex justify-between items-center px-7 h-16 border-b border-border">
-      <Link href={"/"} className="font-extrabold tracking-tight text-primary">Password Manager</Link>
+    <header className="flex justify-between items-center px-7 h-16 bg-muted/50 border-b border-border">
+      <Link href={"/"} className="font-extrabold tracking-tight text-foreground flex items-center gap-2 h-16">
+      <Shield className="bg-primary rounded w-auto h-auto p-2"/>
+      Password Manager
+      </Link>
       <div className="flex items-center gap-2">
         <SignedOut>
           <SignInButton>

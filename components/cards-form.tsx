@@ -30,9 +30,14 @@ import { Loader2Icon } from "lucide-react";
 import { toast } from "sonner";
 
 const formSchema = z.object({
-  cardNote: z.string().min(2, "Card Note must be at least 2 characters"),
+  cardNote: z.string().optional(),
   cardNumber: z.string().min(12, "Card Number must be at least 12 characters"),
-  expiryDate: z.string().min(4, "Expiry Date must be at least 4 characters"),
+  expiryDate: z
+    .string()
+    .regex(
+      /^(0[1-9]|1[0-2])\/?([0-9]{2})$/,
+      "Expiry Date must be in MM/YY format"
+    ),
   cvv: z.string().min(3, "CVV must be at least 3 characters"),
 });
 
@@ -106,7 +111,13 @@ export function CardsForm({ onAdded }: CardFormProps) {
                 <FormItem>
                   <FormLabel>CVV</FormLabel>
                   <FormControl>
-                    <Input placeholder="CVV" {...field} />
+                    <Input
+                      type="number"
+                      min={0}
+                      placeholder="CVV"
+                      {...field}
+                      className="[appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
