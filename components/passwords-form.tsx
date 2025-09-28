@@ -5,13 +5,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { addPassword } from "@/lib/_actions";
 import { useUser } from "@clerk/nextjs";
-import {useRouter} from "nextjs-toploader/app"
-import { GeneratePassword } from "js-generate-password";
+import { useRouter } from "nextjs-toploader/app";
+import * as Generator from "generate-password";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -19,10 +18,8 @@ import {
 } from "@/components/ui/form";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -67,6 +64,16 @@ export function PasswordForm({ onAdded }: PasswordFormProps) {
       onAdded?.();
       router.refresh();
     }
+  }
+
+  function genPass() {
+    const password = Generator.generate({
+      length: 12,
+      numbers: true,
+      symbols: true,
+      strict: true,
+    });
+    form.setValue("password", password);
   }
 
   return (
@@ -116,6 +123,17 @@ export function PasswordForm({ onAdded }: PasswordFormProps) {
                     <Input placeholder="Password" {...field} />
                   </FormControl>
                   <FormMessage />
+                  <Button
+                    type="button"
+                    size={"sm"}
+                    variant={"link"}
+                    className="w-fit text-xs justify-self-end"
+                    onClick={() => {
+                      genPass();
+                    }}
+                  >
+                    Generate Password
+                  </Button>
                 </FormItem>
               )}
             />
@@ -128,8 +146,6 @@ export function PasswordForm({ onAdded }: PasswordFormProps) {
                 Secure Password
               </Button>
             )}
-             {/* <Button onClick={()=>{toast.warning("Working")}} >Toast</Button> */}
-             {/* <Button onClick={()=>{router.refresh()}} >Refresh</Button> */}
           </form>
         </Form>
       </CardContent>

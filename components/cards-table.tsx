@@ -2,15 +2,12 @@
 
 import { Button } from "@/components/ui/button";
 import { Loader2Icon, Trash2Icon } from "lucide-react";
-import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 import { getCards, deleteCard } from "@/lib/_actions";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -35,6 +32,7 @@ import {
 } from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import ClipboardButton from "./ui/copy-button";
 
 interface CardData {
   cardNote?: string;
@@ -137,9 +135,24 @@ export function CardsTable({ refreshKey }: CardTableProps) {
                   <TableCell className="font-medium">
                   {card.cardNote}
                 </TableCell>
-                <TableCell>{card.cardNumber}</TableCell>
-                <TableCell>{card.expiryDate}</TableCell>
-                <TableCell>{card.cvv}</TableCell>
+                <TableCell>
+                    <span className="flex items-center">
+                      {card.cardNumber}
+                      <ClipboardButton textToCopy={card.cardNumber} />
+                    </span>
+                  </TableCell>
+                <TableCell>
+                    <span className="flex items-center">
+                      {card.expiryDate}
+                      <ClipboardButton textToCopy={card.expiryDate} />
+                    </span>
+                  </TableCell>
+                <TableCell>
+                    <span className="flex items-center">
+                      {card.cvv}
+                      <ClipboardButton textToCopy={card.cvv} />
+                    </span>
+                  </TableCell>
                   <TableCell className="text-right">
                     <Dialog>
                       <DialogTrigger asChild>

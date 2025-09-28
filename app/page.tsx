@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Import Card components for feature display
-import { Shield, Lock, Zap, RefreshCw, Key, Users } from "lucide-react"; // Import Lucide icons
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Shield, Lock, Zap, RefreshCw, Key, Copy } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { SignUpButton } from "@clerk/nextjs";
 
-// Define the features data
 const features = [
   {
     icon: Shield,
@@ -18,8 +18,8 @@ const features = [
   },
   {
     icon: Zap,
-    title: "One-Click Login",
-    description: "Auto-fill credentials instantly across all your favorite websites and apps for a seamless experience.",
+    title: "Organized & Categorized",
+    description: "Keep your digital life clutter-free by categorizing your entries for quick searching and retrieval.",
   },
   {
     icon: RefreshCw,
@@ -32,19 +32,15 @@ const features = [
     description: "Beyond passwords, securely store credit/debit card details, bank information, and private notes.",
   },
   {
-    icon: Users,
-    title: "Family & Team Sharing",
-    description: "Securely share selected credentials with trusted family members or team members within your vault.",
+    icon: Copy,
+    title: "Instant Copy & Access",
+    description: "Easily access and copy your usernames, passwords, and card numbers with a single tap or click right when you need them.",
   },
 ];
 
 export default function Home() {
   return (
     <main>
-      {/* ========================================
-        1. HERO SECTION (Existing Code)
-        ========================================
-      */}
       <section id="hero" className="px-2 py-7 md:py-20 bg-muted/50">
         <div className="container items-center max-w-6xl px-8 mx-auto xl:px-5">
           <div className="flex flex-wrap items-center sm:-mx-3">
@@ -88,15 +84,12 @@ export default function Home() {
             </div>
             <div className="w-full md:w-1/2">
               <div className="relative w-full h-auto overflow-hidden rounded-md shadow-xl sm:rounded-xl aspect-[16/10]">
-                {/* IMPORTANT: Use Next.js Image component for performance.
-                  Replace <img> with <Image> and add width/height props.
-                */}
                 <Image
-                  src="/cybersecurity.jpg" // Ensure this image is in the public directory
+                  src="/cybersecurity.jpg"
                   alt="Password Manager Interface"
                   layout="fill"
                   objectFit="cover"
-                  priority // Load the hero image first
+                  priority
                 />
               </div>
             </div>
@@ -104,10 +97,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ========================================
-        2. FEATURES/VALUE PROPOSITION SECTION
-        ========================================
-      */}
       <section id="features" className="py-16 bg-muted/50">
         <div className="container max-w-6xl mx-auto px-8 xl:px-5">
           <div className="text-center mb-12">
@@ -137,10 +126,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ========================================
-        3. CALL TO ACTION SECTION
-        ========================================
-      */}
       <section id="cta" className="py-16 bg-primary">
         <div className="container max-w-6xl mx-auto px-8 xl:px-5 text-center">
           <h2 className="text-3xl font-extrabold tracking-tight text-primary-foreground sm:text-4xl">
@@ -149,11 +134,11 @@ export default function Home() {
           <p className="mt-4 text-xl text-primary-foreground/90 mb-8">
             Join thousands of users who trust us to protect their most sensitive data.
           </p>
-          <Button asChild size="lg" className="bg-primary-foreground text-primary hover:bg-white/90">
-            <Link href="/manager">
+          <SignUpButton>
+          <Button size="lg" className="bg-primary-foreground text-primary hover:bg-white/90">
               Create My Free Vault
-            </Link>
           </Button>
+          </SignUpButton>
         </div>
       </section>
     </main>

@@ -38,13 +38,13 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
+          <NextTopLoader color="var(--primary)" showSpinner={false} />
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
             enableSystem
             disableTransitionOnChange
           >
-            <NextTopLoader color="var(--primary)" showSpinner={false} />
             <Header />
             {children}
             <Toaster position="top-center" richColors />

@@ -7,10 +7,8 @@ import { useUser } from "@clerk/nextjs";
 import { getPasswords, deletePassword } from "@/lib/_actions";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -35,6 +33,7 @@ import {
 } from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import ClipboardButton from "./ui/copy-button";
 
 interface PasswordData {
   website: string;
@@ -142,8 +141,18 @@ export function PasswordsTable({ refreshKey }: PasswordsTableProps) {
                       {password.website}
                     </Link>
                   </TableCell>
-                  <TableCell>{password.username}</TableCell>
-                  <TableCell>{password.password}</TableCell>
+                  <TableCell>
+                    <span className="flex items-center">
+                      {password.username}
+                      <ClipboardButton textToCopy={password.username} />
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <span className="flex items-center">
+                      {password.password}
+                      <ClipboardButton textToCopy={password.password} />
+                    </span>
+                  </TableCell>
                   <TableCell className="text-right">
                     <Dialog>
                       <DialogTrigger asChild>
