@@ -34,7 +34,7 @@ export async function addPassword(data: PasswordData, userId: string) {
   data.username = CryptoJS.AES.encrypt(data.username, process.env.NEXT_PUBLIC_ENCRYPTION_KEY || '').toString();
   const client = await clerkClient();
   const user = await client.users.getUser(userId);
-  let passwords =
+  const passwords =
     ((await user.privateMetadata.passwords) as PasswordData[]) || [];
   passwords.push(data);
   await client.users.updateUserMetadata(userId, {
@@ -48,7 +48,7 @@ export async function addPassword(data: PasswordData, userId: string) {
 export async function deletePassword(index: number, userId: string) {
   const client = await clerkClient();
   const user = await client.users.getUser(userId);
-  let passwords =
+  const passwords =
     ((await user.privateMetadata.passwords) as PasswordData[]) || [];
   passwords.splice(index, 1);
   await client.users.updateUserMetadata(userId, {
@@ -78,7 +78,7 @@ export async function addCard(data: CardData, userId: string) {
   data.expiryDate = CryptoJS.AES.encrypt(data.expiryDate, process.env.NEXT_PUBLIC_ENCRYPTION_KEY || '').toString();
   const client = await clerkClient();
   const user = await client.users.getUser(userId);
-  let cards = ((await user.privateMetadata.cards) as CardData[]) || [];
+  const cards = ((await user.privateMetadata.cards) as CardData[]) || [];
   cards.push(data);
   await client.users.updateUserMetadata(userId, {
     privateMetadata: {
@@ -91,7 +91,7 @@ export async function addCard(data: CardData, userId: string) {
 export async function deleteCard(index: number, userId: string) {
   const client = await clerkClient();
   const user = await client.users.getUser(userId);
-  let cards = ((await user.privateMetadata.cards) as CardData[]) || [];
+  const cards = ((await user.privateMetadata.cards) as CardData[]) || [];
   cards.splice(index, 1);
   await client.users.updateUserMetadata(userId, {
     privateMetadata: {
